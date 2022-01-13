@@ -23,7 +23,8 @@
             <div class='projects'>
                 <h2>Projects</h2>
                 <div class='project-list'></div>
-                <button id='new-project'>New Project</button>
+                <button id='default-project'>Default</button>
+                <button id='new-project'>+</button>
             </div>
         </div>
         <div class='list-container'>
@@ -45,15 +46,15 @@
         <input type='text' id='task' name='task'>
         <label for='priority'>Priority:</label>
         <select name='priority' id='priority'>
-            <option value='normal'>Normal</option>
-            <option value='high'>High</option>
-            <option value='very-high'>Very High</option>
+            <option value='Normal' selected>Normal</option>
+            <option value='High'>High</option>
+            <option value='Very High'>Very High</option>
         </select>
         <label for='due-date'>Due Date:</label>
         <input type='date' id='due-date' name='due-date'>
         <label for='assign-project'>Assign to Project:</label>
         <select name='assign-project' id='assign-project'>
-            <option value='default'>Default</option>
+            <option value='default' selected>Default</option>
         </select>
         <label for='notes'>Notes:</label>
         <textarea id='notes' name='notes'></textarea>

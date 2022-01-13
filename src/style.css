@@ -74,7 +74,7 @@ h1 {
 .list-header, .list-task {
     padding: 6px;
     display: grid;
-    grid-template-columns: 40px 1fr 80px 140px 50px 50px 80px;
+    grid-template-columns: 40px 1fr 120px 140px 50px 50px 80px;
 }
 
 .list-header div, .list-task div {
@@ -190,4 +190,15 @@ h1 {
 
 .bg-filter, .new-project-form, .new-task-form {
     display: none;
+}
+
+#new-project {
+    font-size: 60px;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
