@@ -1,5 +1,9 @@
 import './style.css';
-import format from 'date-fns/format'
+import format from 'date-fns/format';
+import add from 'date-fns/add';
+import isWithinInterval from 'date-fns/isWithinInterval';
+import set from 'date-fns/set';
+import compareAsc from 'date-fns/compareAsc';
 
 // Selectors
 
@@ -56,6 +60,9 @@ class Task {
 const createTask = () => {
     const newTask = new Task(formInputs.task.value, formInputs.priority.value, formInputs.date.valueAsDate, formInputs.project.value, formInputs.notes.value);
     allTasks.push(newTask);
+    allTasks.sort(function(a, b) {
+        return compareAsc(a.date, b.date);
+    });
 };
 
 const clearInputs = () => {
@@ -92,12 +99,94 @@ const closeForm = () => {
     clearInputs();
 };
 
+let todayArray = [];
+let tomorrowArray = [];
+let weekArray = [];
+let monthArray = [];
+
+const clearArrays = () => {
+    todayArray = [];
+    tomorrowArray = [];
+    weekArray = [];
+    monthArray = [];
+};
+
+const displayToday = () => {
+    clearArrays();
+    allTasks.forEach(task => {
+        if (format(task.date, 'dd-MM-yyyy') === format(new Date(), 'dd-MM-yyyy')) {
+            todayArray.push(task);
+        }
+    });
+    displayTasks(todayArray);
+};
+
+const displayTomorrow = () => {
+    clearArrays();
+    let tomorrow = add(new Date(), {days: 1});
+    allTasks.forEach(task => {
+        if (format(task.date, 'dd-MM-yyyy') === format(tomorrow, 'dd-MM-yyyy')) {
+            tomorrowArray.push(task);
+        }
+    });
+    displayTasks(tomorrowArray);
+}; 
+
+const displayWeek = () => {
+    clearArrays();
+    let week = add(new Date(), {weeks: 1});
+    allTasks.forEach(task => {
+        if (isWithinInterval(task.date, {
+            start: set(new Date(), {hours: 0, minutes: 0, seconds: 0}),
+            end: week
+        })) {
+            weekArray.push(task);
+        }
+    });
+    displayTasks(weekArray);
+}; 
+
+const displayMonth = () => {
+    clearArrays();
+    let month = add(new Date(), {months: 1});
+    allTasks.forEach(task => {
+        if (isWithinInterval(task.date, {
+            start: set(new Date(), {hours: 0, minutes: 0, seconds: 0}),
+            end: month
+        })) {
+            monthArray.push(task);
+        }
+    });
+    displayTasks(monthArray);
+};
+
+const displayAll = () => {
+    clearArrays();
+    displayTasks(allTasks);
+};
+
 const displayTasks = (array) => {
     while (listContainer.lastChild && listContainer.lastChild.className === 'list-task') {
         listContainer.lastChild.remove();
     }
     let number = 0;
     array.forEach(task => {
+        const deleteTask = (e) => {
+            e.target.parentNode.remove();
+            allTasks.splice(allTasks.indexOf(task), 1);
+        };
+        const markTask = (e) => {
+            e.target.parentNode.style.backgroundColor = 'rgb(144, 255, 53)';
+            e.target.parentNode.style.color = 'rgba(0, 0, 0, 0.6)';
+            order.style.textDecoration = 'line-through';
+            taskText.style.textDecoration = 'line-through';
+            priority.style.textDecoration = 'line-through';
+            date.style.textDecoration = 'line-through';
+            edit.hidden = true;
+            mark.hidden = true;
+            deleteTaskBtn.style.backgroundColor = 'rgb(127, 177, 28)';
+        };
+
         number++;
         const taskContainer = document.createElement('div');
         taskContainer.classList.add('list-task');
@@ -119,12 +208,12 @@ const displayTasks = (array) => {
         taskContainer.appendChild(edit);
         const deleteTaskBtn = document.createElement('button');
         deleteTaskBtn.textContent = '❌';
-//        deleteTaskBtn.addEventListener('click', deleteTask);
+        deleteTaskBtn.addEventListener('click', deleteTask);
         taskContainer.appendChild(deleteTaskBtn);
         const mark = document.createElement('button');
         mark.classList.add('mark');
         mark.textContent = '✅';
-//        mark.addEventListener('click', markTask);
+        mark.addEventListener('click', markTask);
         taskContainer.appendChild(mark);
         listContainer.appendChild(taskContainer);
     });
@@ -135,6 +224,11 @@ const displayTasks = (array) => {
 const pageInitiate = () => {
     mainButtons.newTask.addEventListener('click', displayForm);
     mainButtons.newProject.addEventListener('click', displayForm);
+    mainButtons.today.addEventListener('click', displayToday);
+    mainButtons.tomorrow.addEventListener('click', displayTomorrow);
+    mainButtons.thisWeek.addEventListener('click', displayWeek);
+    mainButtons.thisMonth.addEventListener('click', displayMonth);
+    mainButtons.allTasks.addEventListener('click', displayAll);
     formButtons.close.forEach(item => item.addEventListener('click', closeForm));
     formButtons.createTask.addEventListener('click', createTaskBtn);
     formInputs.date.valueAsDate = new Date();
