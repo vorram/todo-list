@@ -69,6 +69,7 @@ h1 {
     flex-grow: 1;
     margin: 36px 36px 36px 36px;
     box-shadow: -1px -1px 4px -1px rgba(0,0,0,0.75);
+    background-color: wheat;
 }
 
 .list-header, .list-task {
@@ -92,7 +93,7 @@ h1 {
     height: 40px;
 }
 
-.list-task button {
+.list-task-button {
     background-color: rgba(245, 202, 121, 0.829);
     border-radius: 50%;
     height: 40px;
@@ -105,6 +106,7 @@ h1 {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: 8px;
 }
 
 .list-task .mark {
@@ -192,6 +194,12 @@ h1 {
     display: none;
 }
 
+#current-project {
+    font-size: 24px;
+    width: 200px;
+    margin-bottom: 20px;
+}
+
 #new-project {
     font-size: 60px;
     border-radius: 50%;
@@ -201,4 +209,31 @@ h1 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.task-text:hover {
+    background-color: rgb(252, 201, 106);
+    cursor: pointer;
+}
+
+.note {
+    min-height: 40px;
+    margin-left: 46px;
+    background-color: rgb(255, 242, 218);
+    padding: 8px 24px 8px 24px;
+    box-sizing: border-box;
+    white-space: pre-wrap;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.edit-btn-container {
+    display: flow-root !important;
+}
+
+.edit-btn {
+    width: 80px;
+    height: 30px;
+    font-size: 16px;
 }

@@ -22,8 +22,8 @@
             </div>
             <div class='projects'>
                 <h2>Projects</h2>
-                <div class='project-list'></div>
-                <button id='default-project'>Default</button>
+                <select id='current-project'>
+                </select>
                 <button id='new-project'>+</button>
             </div>
         </div>
@@ -54,7 +54,7 @@
         <input type='date' id='due-date' name='due-date'>
         <label for='assign-project'>Assign to Project:</label>
         <select name='assign-project' id='assign-project'>
-            <option value='default' selected>Default</option>
+            <option value='Default' selected>Default</option>
         </select>
         <label for='notes'>Notes:</label>
         <textarea id='notes' name='notes'></textarea>
